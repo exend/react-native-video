@@ -1303,12 +1303,16 @@ static int const RCTVideoUnset = -1;
   if( _player )
   {
     _playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
+
+    [CATransaction begin];
+    [CATransaction setAnimationDuration:0.];
     _playerLayer.frame = self.bounds;
     _playerLayer.needsDisplayOnBoundsChange = YES;
-    
     // to prevent video from being animated when resizeMode is 'cover'
     // resize mode must be set before layer is added
     [self setResizeMode:_resizeMode];
+    [CATransaction commit];
+
     [_playerLayer addObserver:self forKeyPath:readyForDisplayKeyPath options:NSKeyValueObservingOptionNew context:nil];
     _playerLayerObserverSet = YES;
     
